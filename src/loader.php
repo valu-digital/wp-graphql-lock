@@ -7,6 +7,8 @@
 
 namespace WPGraphQL\Extensions\PersistedQueries;
 
+use \GraphQL\Error\UserError;
+
 /**
  * Load or save a persisted query from a custom post type. This allows users to
  * avoid sending the query over the wire, saving bandwidth. In particular, it
@@ -60,7 +62,6 @@ class Loader {
 	 *
 	 * @param  string $query_id Query ID
 	 * @return string Query
-	 * @throws RequestError
 	 */
 	public function load( $query_id ) {
 		$post = get_page_by_path( $query_id, 'OBJECT', $this->post_type );
@@ -76,16 +77,29 @@ class Loader {
 	 *
 	 * @param  array $request_data Request data from WPHelper
 	 * @return array
+	 * @throws UserError           Caught and handled by WPGraphQL
 	 */
 	public function process_request_data( $request_data ) {
+		$has_query = ! empty( $request_data['query'] );
+		$has_query_id = ! empty( $request_data['queryId'] );
+
+		// Query IDs are case-insensitive.
+		$query_id = $has_query_id ? strtolower( $request_data['queryId'] ) : null;
+
 		// Client sends *both* queryId and query == request to persist query.
-		if ( ! empty( $request_data['queryId'] ) && ! empty( $request_data['query'] )  ) {
-			$this->save( $request_data['queryId'], $request_data['query'], $request_data['operation'] );
+		if ( $has_query_id && $has_query ) {
+			$this->save( $query_id, $request_data['query'], $request_data['operationName'] );
 		}
 
-		// Client sends queryId but *not* query == optimistic request to use cached query.
-		if ( ! empty( $request_data['queryId'] ) && empty( $request_data['query'] ) ) {
-			$request_data['query'] = $this->load( $request_data['queryId'] );
+		// Client sends queryId but *not* query == optimistic request to use
+		// persisted query.
+		if ( $has_query_id && ! $has_query ) {
+			$request_data['query'] = $this->load( $query_id );
+
+			// If the query is empty, that means it has not been persisted.
+			if ( empty( $request_data['query'] ) ) {
+				throw new UserError( __( 'The query you requested has not been persisted', 'wp-graphql-persisted-queries' ) );
+			}
 		}
 
 		// We've got this. Call off any other persistence implementations.
