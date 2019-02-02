@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPGraphQL Persisted Queries
  * Plugin URI: https://github.com/Quartz/wp-graphql-persisted-queries
- * Description: Provides persistence to queries allowing them to be queried by ID (hash)
+ * Description: Provides persistence to GraphQL queries allowing them to be queried by ID or hash. Requires WPGraphQL 0.2.0 or newer.
  * Author: Chris Zarate, Quartz
  * Version: 1.0.0
  * Author URI: https://qz.com/
