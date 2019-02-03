@@ -25,7 +25,7 @@ When the client provides a query hash or ID, that query will be persisted in a
 custom post type. By default, this post type will be visible in the dashboard
 only to admins.
 
-Query IDs are case-insensitive (that is `MyQuery` and `myquery` are equivalent).
+Query IDs are case-insensitive (i.e., `MyQuery` and `myquery` are equivalent).
 
 ## Filters
 
@@ -39,16 +39,11 @@ Query IDs are case-insensitive (that is `MyQuery` and `myquery` are equivalent).
 
 - Default: `false`
 - Whether the custom post type will itself be exposed via GraphQL. Enabling
-  allows insight into which queries are persisted. Note that queries are
-  inserted as drafts, so you will need to query accordingly, e.g.:
+  allows insight into which queries are persisted.
 
   ```
   query PersistedQueryQuery {
-    persistedQueries (
-      where: {
-        status: DRAFT
-      }
-    ) {
+    persistedQueries {
       nodes {
         id
         title

@@ -16,6 +16,13 @@ use \GraphQL\Error\UserError;
  */
 class Loader {
 	/**
+	 * Error message returned when the query is not persisted or cannot be found.
+	 * This is important for the Apollo implementation; it looks for this exact
+	 * error message in the response.
+	 */
+	private $error_message = 'PersistedQueryNotFound';
+
+	/**
 	 * Namespace for WP filters.
 	 *
 	 * @var string
@@ -55,6 +62,43 @@ class Loader {
 
 		// Filter request data to load/save queries.
 		add_filter( 'graphql_request_data', [ $this, 'process_request_data' ], 10, 1 );
+
+		// Filter the HTTP status code.
+		add_filter( 'graphql_response_status_code', [ $this, 'get_http_status_code' ], 10, 2 );
+
+		// Filter page cache URLs on WordPress VIP.
+		add_filter( "wpcom_vip_cache_purge_{$this->post_type}_post_urls", [ $this, 'get_cache_urls' ], 10, 1 );
+	}
+
+	/**
+	 * Filter page cache URLs on WordPress VIP. This allows us to bust cache when
+	 * a persisted query is manually deleted.
+	 *
+	 * @param  array $urls URLs to purge
+	 * @return array
+	 */
+	public function get_cache_urls( $urls ) {
+		$urls[] = home_url( apply_filters( 'graphql_endpoint', 'graphql' ) );
+
+		return $urls;
+	}
+
+	/**
+	 * Filter the HTTP status code. We should return 202 instead of 500 if
+	 * retrieving the persisted query fails. This prevents the Apollo client from
+	 * giving up on the request. It also prevents most edge caches from caching
+	 * this initial error response.
+	 *
+	 * @param  int   $status_code HTTP status code
+	 * @param  array $response    GraphQL response
+	 * @return int
+	 */
+	public function get_http_status_code( $status_code, $response ) {
+		if ( is_array( $response ) && isset( $response['errors'][0]['message'] ) && $this->error_message === $response['errors'][0]['message'] ) {
+			return 202;
+		}
+
+		return $status_code;
 	}
 
 	/**
@@ -98,7 +142,7 @@ class Loader {
 
 			// If the query is empty, that means it has not been persisted.
 			if ( empty( $request_data['query'] ) ) {
-				throw new UserError( __( 'The query you requested has not been persisted', 'wp-graphql-persisted-queries' ) );
+				throw new UserError( $this->error_message );
 			}
 		}
 
@@ -160,7 +204,7 @@ class Loader {
 			'post_content' => $query,
 			'post_name'    => $query_id,
 			'post_title'   => $name,
-			'post_status'  => 'draft',
+			'post_status'  => 'publish',
 			'post_type'    => $this->post_type,
 		] );
 	}
