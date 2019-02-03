@@ -65,22 +65,6 @@ class Loader {
 
 		// Filter the HTTP status code.
 		add_filter( 'graphql_response_status_code', [ $this, 'get_http_status_code' ], 10, 2 );
-
-		// Filter page cache URLs on WordPress VIP.
-		add_filter( "wpcom_vip_cache_purge_{$this->post_type}_post_urls", [ $this, 'get_cache_urls' ], 10, 1 );
-	}
-
-	/**
-	 * Filter page cache URLs on WordPress VIP. This allows us to bust cache when
-	 * a persisted query is manually deleted.
-	 *
-	 * @param  array $urls URLs to purge
-	 * @return array
-	 */
-	public function get_cache_urls( $urls ) {
-		$urls[] = home_url( apply_filters( 'graphql_endpoint', 'graphql' ) );
-
-		return $urls;
 	}
 
 	/**
