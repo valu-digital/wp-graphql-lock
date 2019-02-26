@@ -57,3 +57,17 @@ If you'd like to further customize the custom post type, filter
 `register_post_type_args`.
 
 [wp-graphql]: https://github.com/wp-graphql/wp-graphql
+
+## Lock mode
+
+When it's active no new queries can be saved and only the saved ones can be
+used. This can greatly improve security as attackers cannot send arbitrary
+queries to the endpoint.
+
+Lock mode can be activated by setting `graphql_persisted_queries_is_locked`
+option to true:
+
+```php
+update_option( 'graphql_persisted_queries_is_locked', true );
+```
+
