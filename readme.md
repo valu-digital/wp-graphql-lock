@@ -71,3 +71,11 @@ option to true:
 update_option( 'graphql_persisted_queries_is_locked', true );
 ```
 
+
+You can also control it with the option filter progmatically
+
+```php
+add_filter( 'option_graphql_persisted_queries_is_locked', function() {
+    return 'production' === WP_ENV;
+}, 10 , 1 );
+```
