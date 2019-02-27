@@ -103,6 +103,13 @@ class Loader {
 	 * @return string Query
 	 */
 	public function load( $query_id ) {
+
+		$query = apply_filters( "{$this->namespace}_load_query", $query_id );
+
+		if ( $query ) {
+			return $query;
+		}
+
 		$post = get_page_by_path( $query_id, 'OBJECT', $this->post_type );
 
 		return isset( $post->post_content ) ? $post->post_content : null;
