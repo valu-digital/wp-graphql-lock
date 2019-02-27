@@ -75,6 +75,12 @@ class Loader {
 	 * @return bool
 	 */
 	public function is_locked() {
+
+		// Allow super admins to send whatever queries. Eg. from wp-graphiql
+		if ( is_super_admin() ) {
+			return false;
+		}
+
 		return (bool) get_option( "{$this->namespace}_is_locked" );
 	}
 
