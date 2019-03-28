@@ -67,23 +67,6 @@ class Loader {
 		add_filter( 'graphql_response_status_code', [ $this, 'get_http_status_code' ], 10, 2 );
 	}
 
-
-	/**
-	 * Whether WP GraphQL is in lock mode. In lock mode only the persistent
-	 * queries are allowed and no new ones can be persisted.
-	 * 
-	 * @return bool
-	 */
-	public function is_locked() {
-
-		// Allow super admins to send whatever queries. Eg. from wp-graphiql
-		if ( is_super_admin() ) {
-			return false;
-		}
-
-		return (bool) get_option( "{$this->namespace}_is_locked" );
-	}
-
 	/**
 	 * Filter the HTTP status code. We should return 202 instead of 500 if
 	 * retrieving the persisted query fails. This prevents the Apollo client from
@@ -136,7 +119,7 @@ class Loader {
 		$has_query_id = ! empty( $request_data['queryId'] );
 
 
-		if ( $this->is_locked() ) {
+		if ( Settings::is_locked() ) {
 			if ( $has_query ) {
 				throw new UserError( sprintf(
 					'WP GraphQL Persisted Queries is in lock mode: Custom query %s is not allowed',
@@ -219,6 +202,11 @@ class Loader {
 	 * @return void
 	 */
 	public function save( $query_id, $query, $name = 'UnnamedQuery' ) {
+
+		if ( ! Settings::is_recording_enabled() ) {
+			return;
+		}
+
 		// Check to see if the query has already been persisted. If so, we're done.
 		if ( ! empty( $this->load( $query_id ) ) ) {
 			return;
