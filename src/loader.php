@@ -104,6 +104,11 @@ class Loader {
 		return isset( $post->post_content ) ? $post->post_content : null;
 	}
 
+	public function generate_query_id( $query ) {
+		return sha1( 'generated: ' . $query );
+	}
+
+
 	/**
 	 * Filter request data and load the query if request provides a query ID. We
 	 * are following the Apollo draft spec for automatic persisted queries. See:
@@ -118,21 +123,22 @@ class Loader {
 		$has_query = ! empty( $request_data['query'] );
 		$has_query_id = ! empty( $request_data['queryId'] );
 
+		if ( Settings::is_generate_ids_enabled() && ! $has_query_id ) {
+			$request_data['queryId'] = $this->generate_query_id( $request_data['query'] );
+			$has_query_id = true;
+		}
 
 		if ( Settings::is_locked() ) {
-			if ( $has_query ) {
-				throw new UserError( sprintf(
-					'WP GraphQL Persisted Queries is in lock mode: Custom query %s is not allowed',
-					$request_data['operationName']
-				) );
-			}
-
 			if ( ! $has_query_id ) {
 				throw new UserError( sprintf(
 					'WP GraphQL Persisted Queries is in lock mode: queryId is required for %s',
 					$request_data['operationName']
 				) );
 			}
+
+			// No custom queries allowed in lock mode
+			unset( $request_data['query'] );
+			$has_query = false;
 		}
 
 		// Query IDs are case-insensitive.

@@ -24,6 +24,10 @@ class Settings {
 				'option' => self::get_option_name( 'recording' )
 			],
 			[
+				'label' => 'Generate Query IDs',
+				'option' => self::get_option_name( 'generate_ids' )
+			],
+			[
 				'label' => 'Lock queries',
 				'option' => self::get_option_name( 'locked' )
 			],
@@ -36,7 +40,11 @@ class Settings {
 	}
 
 	public static function is_recording_enabled() {
-		return (bool) get_option( self::get_option_name( 'recording') );
+		return (bool) get_option( self::get_option_name( 'recording' ) );
+	}
+
+	public static function is_generate_ids_enabled() {
+		return (bool) get_option( self::get_option_name( 'generate_ids' ) );
 	}
 
 	public static function is_locked() {
