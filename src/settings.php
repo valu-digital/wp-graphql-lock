@@ -47,8 +47,8 @@ class Settings {
 		return (bool) get_option( self::get_option_name( 'generate_ids' ) );
 	}
 
-	public static function is_locked() {
-		if ( is_super_admin() ) {
+	public static function is_locked( $deny_admin = false) {
+		if ( is_super_admin() && ! $deny_admin ) {
 			return false;
 		}
 
@@ -58,6 +58,29 @@ class Settings {
 	public function init() {
 		add_action( 'admin_menu', [ $this, 'add_page' ] );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_action( 'admin_notices', [ $this, 'render_admin_notices' ], 0 );
+	}
+
+	public function render_admin_notices() {
+		if ( Settings::is_locked( true ) ) {
+			return;
+		}
+
+		$this->render_notice(
+			'WARNING: The API is open. Anyone can do any request to it!',
+			'warning'
+		);
+
+		if ( Settings::is_recording_enabled() ) {
+			$this->render_notice(
+				'Query recording is enabled'
+			);
+		}
+	}
+
+	private function render_notice( $message, $type = 'success' ) {
+		$class = 'notice notice-' . $type;
+		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( 'WP GraphQL: ' . $message ) );
 	}
 
 	public function register_settings() {
