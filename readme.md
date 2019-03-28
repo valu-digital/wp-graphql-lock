@@ -68,14 +68,20 @@ Lock mode can be activated by setting `graphql_persisted_queries_is_locked`
 option to true:
 
 ```php
-update_option( 'graphql_persisted_queries_is_locked', true );
+update_option( 'graphql_persisted_queries_locked', true );
 ```
 
 
 You can also control it with the option filter progmatically
 
 ```php
-add_filter( 'option_graphql_persisted_queries_is_locked', function() {
+add_filter( 'option_graphql_persisted_queries_locked', function() {
     return 'production' === WP_ENV;
 }, 10 , 1 );
 ```
+
+## Settings 
+
+There's a settings screen
+
+![settings](https://user-images.githubusercontent.com/225712/55174721-a360ac00-5186-11e9-91de-bd1c45ffad11.png)
