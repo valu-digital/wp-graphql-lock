@@ -110,7 +110,7 @@ class Loader {
 	 */
 	public function load( $query_id ) {
 
-		$query = apply_filters( "{$this->namespace}_load_query", $query_id );
+		$query = apply_filters( "{$this->namespace}_load_query", null, $query_id );
 
 		if ( $query ) {
 			return $query;
