@@ -21,15 +21,18 @@ class Settings {
 		$this->checkboxes = [
 			[
 				'label' => 'Record queries',
-				'option' => self::get_option_name( 'recording' )
-			],
-			[
-				'label' => 'Generate Query IDs',
-				'option' => self::get_option_name( 'generate_ids' )
+				'option' => self::get_option_name( 'recording' ),
+				'description' => 'Record queries when they are sent with a queryId param.',
 			],
 			[
 				'label' => 'Lock queries',
-				'option' => self::get_option_name( 'locked' )
+				'option' => self::get_option_name( 'locked' ),
+				'description' => 'Only respond to queries that have a matching persisted query.',
+			],
+			[
+				'label' => 'Generate Query IDs',
+				'option' => self::get_option_name( 'generate_ids' ),
+				'description' => 'Generate query IDs for queries that don\'t itself provide one. This allows query locking without client side generated query IDs.',
 			],
 		];
 
@@ -67,7 +70,7 @@ class Settings {
 		}
 
 		$this->render_notice(
-			'WARNING: The API is open. Anyone can do any request to it!',
+			'The API is open. Anyone can send any query to it!',
 			'warning'
 		);
 
@@ -96,7 +99,7 @@ class Settings {
 				$checkbox['option'],
 				$checkbox['label'],
 				function () use ( $checkbox ) {
-					$this->render_checkbox( $checkbox['option'] );
+					$this->render_checkbox( $checkbox['option'], $checkbox['description'] );
 				},
 				$this->page,
 				"{$this->section}"
@@ -124,7 +127,7 @@ class Settings {
 
 	}
 
-	public function render_checkbox( $option ) {
+	public function render_checkbox( $option, $description = '' ) {
 		// Here we are comparing stored value with 1. Stored value is 1 if user checks
 		// the checkbox otherwise empty string.
 		?>
@@ -134,6 +137,7 @@ class Settings {
 			value="1"
 			<?php checked( 1, get_option( $option ), true );
 		?> />
+		<p class="description"><?php echo esc_html( $description ) ?></p>
 		<?php
 	}
 
