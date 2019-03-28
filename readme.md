@@ -1,3 +1,5 @@
+Fork of `Quartz/wp-graphql-persisted-queries` that implements query locking and settings screen.
+
 # WPGraphQL Persisted Queries
 
 Persisted GraphQL queries allow a GraphQL client to optimistically send a hash
