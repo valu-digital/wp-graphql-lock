@@ -16,4 +16,4 @@ require_once( __DIR__ . '/src/loader.php' );
 require_once( __DIR__ . '/src/settings.php' );
 
 add_action( 'graphql_init', array( new Loader(), 'init' ), 10, 0 );
-add_action( 'graphql_init', array( new Settings(), 'init' ), 10, 0 );
+ (new Settings())->init();
