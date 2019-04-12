@@ -50,7 +50,16 @@ class Settings {
 		return (bool) get_option( self::get_option_name( 'generate_ids' ) );
 	}
 
+	public static function is_internal_graphql_request() {
+		return $_SERVER["REQUEST_URI"] !== '/graphql'; // There must be a better way?
+	}
+
 	public static function is_locked( $deny_admin = false) {
+
+		if ( Settings::is_internal_graphql_request() ) {
+			return false;
+		}
+
 		if ( is_super_admin() && ! $deny_admin ) {
 			return false;
 		}

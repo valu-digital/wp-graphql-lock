@@ -108,6 +108,17 @@ class Loader {
 		return sha1( 'generated: ' . $query );
 	}
 
+	public function get_operation_name( $data ) {
+		if ( ! empty( $data['operationName'] ) ) {
+			return $data['operationName'];
+		}
+
+		if ( ! empty( $data['operation_name'] ) ) {
+			return $data['operation_name'];
+		}
+
+		return '';
+	}
 
 	/**
 	 * Filter request data and load the query if request provides a query ID. We
@@ -132,7 +143,7 @@ class Loader {
 			if ( ! $has_query_id ) {
 				throw new UserError( sprintf(
 					'WP GraphQL Persisted Queries is in lock mode: queryId is required for %s',
-					$request_data['operationName']
+					$this->get_operation_name( $request_data )
 				) );
 			}
 
@@ -146,7 +157,7 @@ class Loader {
 
 		// Client sends *both* queryId and query == request to persist query.
 		if ( $has_query_id && $has_query ) {
-			$this->save( $query_id, $request_data['query'], $request_data['operationName'] );
+			$this->save( $query_id, $request_data['query'], $this->get_operation_name( $request_data ) );
 		}
 
 		// Client sends queryId but *not* query == optimistic request to use
@@ -210,6 +221,10 @@ class Loader {
 	public function save( $query_id, $query, $name = 'UnnamedQuery' ) {
 
 		if ( ! Settings::is_recording_enabled() ) {
+			return;
+		}
+
+		if ( ! Settings::is_internal_graphql_request() ) {
 			return;
 		}
 
