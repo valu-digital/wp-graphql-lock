@@ -75,7 +75,7 @@ class Settings {
 
 	public function render_admin_notices() {
 		// Skip notices on the settings page itself
-		if ( $_GET['page'] === $this->page ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === $this->page ) {
 			return;
 		}
 
