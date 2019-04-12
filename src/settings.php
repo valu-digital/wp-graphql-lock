@@ -134,7 +134,7 @@ class Settings {
 		add_options_page(
 			'GraphQL Persited Queries',
 			'GraphQL Persited Queries',
-			'manage_network',
+			'manage_options',
 			$this->page,
 			[ $this, 'render_settings' ]
 		);
