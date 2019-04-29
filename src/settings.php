@@ -51,7 +51,9 @@ class Settings {
 	}
 
 	public static function is_internal_graphql_request() {
-		return $_SERVER["REQUEST_URI"] !== '/graphql'; // There must be a better way?
+		$http = defined( 'GRAPHQL_HTTP_REQUEST' ) && GRAPHQL_HTTP_REQUEST;
+		$req = defined( 'GRAPHQL_REQUEST' ) && GRAPHQL_REQUEST;
+		return ! $http && $req;
 	}
 
 	public static function is_locked( $deny_admin = false) {
