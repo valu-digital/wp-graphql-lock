@@ -12,7 +12,7 @@ disallowing any unwanted queries. This can greatly improve the server
 security.
 
 Alternatively you can pre-generate the query IDs from your client source code
-with the [GraphlQL Code Generator plugin][codegen] and load the IDs with the
+with the [GraphQL Code Generator plugin][codegen] and load the IDs with the
 `graphql_lock_load_query` filter.
 
 In addition to enabling query locking this saves network overhead and makes
