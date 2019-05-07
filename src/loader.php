@@ -5,7 +5,7 @@
  * @package wp-graphql-persisted-queries
  */
 
-namespace WPGraphQL\Extensions\PersistedQueries;
+namespace WPGraphQL\Extensions\Lock;
 
 use \GraphQL\Error\UserError;
 
@@ -27,7 +27,7 @@ class Loader {
 	 *
 	 * @var string
 	 */
-	private $namespace = 'graphql_persisted_queries';
+	private $namespace = 'graphql_lock';
 
 	/**
 	 * Post type for default query persistence. Unused if query persistence is
@@ -142,7 +142,7 @@ class Loader {
 		if ( Settings::is_locked() ) {
 			if ( ! $has_query_id ) {
 				throw new UserError( sprintf(
-					'WP GraphQL Persisted Queries is in lock mode: queryId is required for %s',
+					'WP GraphQL Lock Queries is in lock mode: queryId is required for %s',
 					$this->get_operation_name( $request_data )
 				) );
 			}

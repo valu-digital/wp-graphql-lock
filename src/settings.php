@@ -1,6 +1,6 @@
 <?php
 
-namespace WPGraphQL\Extensions\PersistedQueries;
+namespace WPGraphQL\Extensions\Lock;
 
 class Settings {
 
@@ -9,11 +9,11 @@ class Settings {
 	 *
 	 * @var string
 	 */
-	static $namespace = 'graphql_persisted_queries';
+	static $namespace = 'graphql_lock';
 
-	private $section = 'graphql_persisted_queries_settings_section';
+	private $section = 'graphql_lock_settings_section';
 
-	private $page = 'graphql-persisted-queries-settings';
+	private $page = 'graphql-lock-settings';
 
 	private $options = null;
 
@@ -134,8 +134,8 @@ class Settings {
 	public function add_page() {
 		// This page will be under "Settings"
 		add_options_page(
-			'GraphQL Persited Queries',
-			'GraphQL Persited Queries',
+			'GraphQL Lock',
+			'GraphQL Lock',
 			'manage_options',
 			$this->page,
 			[ $this, 'render_settings' ]
@@ -160,7 +160,7 @@ class Settings {
 	public function render_settings() {
 		?>
 		<div class="wrap">
-			<h1>WP GraphQL Persisted Queries Settings</h1>
+			<h1>WPGraphQL Lock Settings</h1>
 
 			<form method="post" action="options.php">
 				<?php
