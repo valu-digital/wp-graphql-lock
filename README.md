@@ -45,6 +45,21 @@ Query IDs are case-insensitive (i.e., `MyQuery` and `myquery` are equivalent).
 
 ## Filters
 
+### `graphql_lock_load_query`
+
+-   Default: `[]`
+-   Load the queries from a custom location
+-   The query ID is passed as the second parameter
+
+Example:
+
+```php
+add_filter( 'graphql_lock_load_query', function( array $queries, string $query_id ) {
+    $queries = json_decode( file_get_contents( __DIR__ . '/persisted-query-ids/server.json' ), true );
+    return $queries[ $query_id ] ?? null;
+}, 10, 2 );
+```
+
 ### `graphql_lock_post_type`
 
 -   Default: `'graphql_query'`
@@ -85,8 +100,6 @@ Lock mode can be activated by setting `graphql_lock_locked` option to true:
 ```php
 update_option( 'graphql_lock_locked', true );
 ```
-
-You can also control it with the option filter progmatically
 
 ```php
 add_filter( 'option_graphql_lock_locked', function() {
