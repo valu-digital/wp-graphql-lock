@@ -224,7 +224,7 @@ class Loader {
 			return;
 		}
 
-		if ( ! Settings::is_internal_graphql_request() ) {
+		if ( Settings::is_internal_graphql_request() ) {
 			return;
 		}
 
