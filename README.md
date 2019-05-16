@@ -54,7 +54,7 @@ Query IDs are case-insensitive (i.e., `MyQuery` and `myquery` are equivalent).
 Example:
 
 ```php
-add_filter( 'graphql_lock_load_query', function( array $queries, string $query_id ) {
+add_filter( 'graphql_lock_load_query', function( string $query, string $query_id ) {
     $queries = json_decode( file_get_contents( __DIR__ . '/persisted-query-ids/server.json' ), true );
     return $queries[ $query_id ] ?? null;
 }, 10, 2 );
