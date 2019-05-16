@@ -66,6 +66,13 @@ class Settings {
 			return false;
 		}
 
+		$bypass_key = trim( get_option( self::get_option_name( 'bypass_key' ), '' ) );
+		$provided_bypass_key = trim( $_SERVER['HTTP_X_GRAPHQL_LOCK_BYPASS'] ?? '' );
+
+		if ( $bypass_key && $provided_bypass_key && $bypass_key === $provided_bypass_key ) {
+			return false;
+		}
+
 		return (bool) get_option( self::get_option_name( 'locked') );
 	}
 
@@ -125,8 +132,25 @@ class Settings {
 				"{$this->section}",
 				$checkbox['option']
 			);
-
 		}
+
+		add_settings_field(
+			'graphql_lock_bypass_key',
+			'Lock bypass key',
+			function() {
+				$this->render_input(
+					self::get_option_name( 'bypass_key' ),
+					'If set clients can send this key in a x-graphql-lock-bypass header to bypass the locking system'
+				);
+			},
+			$this->page,
+			"{$this->section}"
+		);
+
+		register_setting(
+			"{$this->section}",
+			self::get_option_name( 'bypass_key' )
+		);
 
 
 	}
@@ -153,6 +177,18 @@ class Settings {
 			value="1"
 			<?php checked( 1, get_option( $option ), true );
 		?> />
+		<p class="description"><?php echo esc_html( $description ) ?></p>
+		<?php
+	}
+
+	public function render_input( $option, $description = '' ) {
+		?>
+		<input
+			type="text"
+			name="<?php echo esc_attr( $option ); ?>"
+			value="<?php echo get_option( $option, '' );  ?>"
+
+		/>
 		<p class="description"><?php echo esc_html( $description ) ?></p>
 		<?php
 	}
