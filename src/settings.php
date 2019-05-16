@@ -177,7 +177,10 @@ class Settings {
 			value="1"
 			<?php checked( 1, get_option( $option ), true );
 		?> />
-		<p class="description"><?php echo esc_html( $description ) ?></p>
+		<p class="description">
+			<?php echo esc_html( $description ) ?>
+			<sub>(<?php echo esc_html( $option ) ?>)</sub>
+		</p>
 		<?php
 	}
 
@@ -189,7 +192,11 @@ class Settings {
 			value="<?php echo get_option( $option, '' );  ?>"
 
 		/>
-		<p class="description"><?php echo esc_html( $description ) ?></p>
+		<br />
+		<p class="description">
+			<?php echo esc_html( $description ) ?>
+			<sub>(<?php echo esc_html( $option ) ?>)</sub>
+		</p>
 		<?php
 	}
 
