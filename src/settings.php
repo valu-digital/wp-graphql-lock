@@ -174,11 +174,14 @@ class Settings {
 		<input
 			type="checkbox"
 			name="<?php echo esc_attr( $option ); ?>"
+			id="lock-option-<?php echo esc_attr( $option ); ?>"
 			value="1"
 			<?php checked( 1, get_option( $option ), true );
 		?> />
 		<p class="description">
-			<?php echo esc_html( $description ) ?>
+			<label for="lock-option-<?php echo esc_attr( $option ); ?>">
+				<?php echo esc_html( $description ) ?>
+			</label>
 			<sub>(<?php echo esc_html( $option ) ?>)</sub>
 		</p>
 		<?php
