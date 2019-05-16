@@ -140,7 +140,7 @@ class Settings {
 			function() {
 				$this->render_input(
 					self::get_option_name( 'bypass_key' ),
-					'If set clients can send this key in a x-graphql-lock-bypass header to bypass the locking system'
+					'If set the clients can send this key in a x-graphql-lock-bypass header to bypass the locking system'
 				);
 			},
 			$this->page,

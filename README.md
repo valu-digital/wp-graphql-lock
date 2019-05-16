@@ -47,7 +47,6 @@ Query IDs are case-insensitive (i.e., `MyQuery` and `myquery` are equivalent).
 
 ### `graphql_lock_load_query`
 
--   Default: `[]`
 -   Load the queries from a custom location
 -   The query ID is passed as the second parameter
 
