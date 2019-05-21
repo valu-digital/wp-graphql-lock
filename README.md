@@ -7,9 +7,10 @@ Persisted GraphQL queries allow a GraphQL client to optimistically send a hash
 of the query instead of the full query; if the server has seen the query
 before, it can satisfy the request.
 
-Once server knowns all the possible queries the plugin can lock it down
-disallowing any unwanted queries. This can greatly improve the server
-security.
+Once the server knowns all the possible queries the plugin can lock it down
+disallowing any unwanted queries that are possibly malicious. This can
+greatly improve the server security and can even protect againts unpatched
+vulnerabilities in some cases.
 
 Alternatively you can pre-generate the query IDs from your client source code
 with the [GraphQL Code Generator plugin][codegen] and load the IDs with the
