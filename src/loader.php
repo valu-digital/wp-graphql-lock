@@ -204,7 +204,7 @@ class Loader {
 				'show_in_graphql'     => $show_in_graphql,
 				'graphql_single_name' => 'persistedQuery',
 				'graphql_plural_name' => 'persistedQueries',
-				'show_ui'             => is_admin(),
+				'show_ui'             => is_super_dmin(),
 				'supports'            => [ 'title', 'editor' ],
 			]
 		);
