@@ -55,10 +55,13 @@ Example:
 
 ```php
 add_filter( 'graphql_lock_load_query', function( string $query, string $query_id ) {
-    $queries = json_decode( file_get_contents( __DIR__ . '/persisted-query-ids/server.json' ), true );
+    $queries = json_decode( file_get_contents( __DIR__ . '/.persisted-query-ids/server.json' ), true );
     return $queries[ $query_id ] ?? null;
 }, 10, 2 );
 ```
+
+Note: You should prefer using hidden directories / files to avoid exposing the lock file via your webserver.
+
 
 ### `graphql_lock_post_type`
 
