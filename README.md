@@ -44,6 +44,17 @@ only to admins.
 
 Query IDs are case-insensitive (i.e., `MyQuery` and `myquery` are equivalent).
 
+## Installation
+
+If you use composer you can install it from packagist
+
+    composer require valu/wp-graphql-lock
+
+Otherwise you can clone it from Github to your plugins using the stable branch
+
+    cd wp-content/plugins
+    git clone --branch stable https://github.com/valu-digital/wp-graphql-lock.git
+
 ## Filters
 
 ### `graphql_lock_load_query`
