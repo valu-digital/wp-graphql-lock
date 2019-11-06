@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/valu-digital/wp-graphql-lock
  * Description: This plugin enables query locking for WPGraphQL by implementing persisted GraphQL queries.
  * Author: Esa-Matti Suuronen, Valu Digital Oy
- * Version: 0.1.1
+ * Version: 0.1.2
  * Author URI: https://valu.fi/
  *
  * @package wp-graphql-lock
