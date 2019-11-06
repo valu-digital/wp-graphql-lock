@@ -1,0 +1,20 @@
+{
+  "name": "valu/wp-graphql-lock",
+  "description": "Query locking for wp-graphql",
+  "type": "wordpress-plugin",
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Esa-Matti Suuronen",
+      "email": "esa-matti.suuronen@valu.fi",
+      "role": "developer"
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true
+  },
+  "support": {
+    "issues": "https://github.com/valu-digital/wp-graphql-lock/issues",
+    "source": "https://github.com/valu-digital/wp-graphql-lock"
+  }
+}
