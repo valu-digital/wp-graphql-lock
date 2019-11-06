@@ -2,7 +2,7 @@
   "name": "valu/wp-graphql-lock",
   "description": "Query locking for wp-graphql",
   "type": "wordpress-plugin",
-  "license": "GPLv3",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Esa-Matti Suuronen",
