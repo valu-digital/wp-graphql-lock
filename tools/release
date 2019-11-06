@@ -1,6 +1,6 @@
 #!/bin/sh
 
-project="valu-digital/wp-graphql-polylang"
+project="valu-digital/wp-graphql-lock"
 version_file="wp-graphql-lock.php"
 
 set -eu
