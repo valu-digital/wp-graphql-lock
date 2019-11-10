@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -eu
+
+composer install
+
+export PATH="$(pwd)/vendor/bin:$PATH"
+
+cp .env.github .env
+
+composer install
+
+composer wpunit

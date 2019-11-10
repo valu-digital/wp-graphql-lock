@@ -3,3 +3,4 @@
 /.env
 /.wp-install
 /composer.lock
+/tests/_output/failed
