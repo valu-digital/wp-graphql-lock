@@ -5,10 +5,12 @@ on:
         paths:
             - "**.php"
             - "**.json"
+            - tools/test-github
     pull_request:
         paths:
             - "**.php"
             - "**.json"
+            - tools/test-github
 
 jobs:
     test:

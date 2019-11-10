@@ -8,6 +8,7 @@ export PATH="$(pwd)/vendor/bin:$PATH"
 
 cp .env.github .env
 
+composer wp-install
 composer install
 
 composer wpunit
