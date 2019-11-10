@@ -11,4 +11,6 @@ cp .env.github .env
 composer wp-install
 composer install
 
-composer wpunit
+(cd .wp-install/web/ && wp server) &
+
+composer test
