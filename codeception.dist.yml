@@ -1,0 +1,42 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+actor_suffix: Tester
+settings:
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+    commands:
+        - Codeception\Command\GenerateWPUnit
+        - Codeception\Command\GenerateWPRestApi
+        - Codeception\Command\GenerateWPRestController
+        - Codeception\Command\GenerateWPRestPostTypeController
+        - Codeception\Command\GenerateWPAjax
+        - Codeception\Command\GenerateWPCanonical
+        - Codeception\Command\GenerateWPXMLRPC
+params:
+    - .env
+modules:
+    config:
+        WPLoader:
+            wpRootFolder: "%WP_TOOLS_INSTALL_DIR%/web"
+            dbName: "%WP_TOOLS_DB_NAME%"
+            dbHost: "%WP_TOOLS_DB_HOST%"
+            dbUser: "%WP_TOOLS_DB_USER%"
+            dbPassword: "%WP_TOOLS_DB_PASSWORD%"
+            tablePrefix: "_wp"
+            domain: "%WP_TOOLS_SITE_HOST%"
+            adminEmail: "%WP_TOOLS_SITE_ADMIN_EMAIL%"
+            title: "Test"
+            plugins:
+                - "wp-graphql/wp-graphql.php"
+                - "wp-graphql-lock/wp-graphql-lock.php"
+            activatePlugins:
+                - "wp-graphql/wp-graphql.php"
+                - "wp-graphql-lock/wp-graphql-lock.php"
+            configFile: "tests/_data/config.php"

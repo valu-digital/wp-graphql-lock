@@ -1,20 +1,34 @@
 {
-  "name": "valu/wp-graphql-lock",
-  "description": "Query locking for wp-graphql",
-  "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Esa-Matti Suuronen",
-      "email": "esa-matti.suuronen@valu.fi",
-      "role": "developer"
+    "name": "valu/wp-graphql-lock",
+    "description": "Query locking for wp-graphql",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/valu-digital/wp-tools"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Esa-Matti Suuronen",
+            "email": "esa-matti.suuronen@valu.fi",
+            "role": "developer"
+        }
+    ],
+    "require-dev": {
+        "valu/wp-tools": "*",
+        "lucatume/wp-browser": "^2.2"
+    },
+    "scripts": {
+        "wp-install": "wp-install --full",
+        "wp-server": "cd .wp-install/web/ && wp server"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "support": {
+        "issues": "https://github.com/valu-digital/wp-graphql-lock/issues",
+        "source": "https://github.com/valu-digital/wp-graphql-lock"
     }
-  ],
-  "config": {
-    "optimize-autoloader": true
-  },
-  "support": {
-    "issues": "https://github.com/valu-digital/wp-graphql-lock/issues",
-    "source": "https://github.com/valu-digital/wp-graphql-lock"
-  }
 }

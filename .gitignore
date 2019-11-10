@@ -1,0 +1,5 @@
+
+/vendor
+/.env
+/.wp-install
+/composer.lock
