@@ -4,9 +4,11 @@ on:
     push:
         paths:
             - "**.php"
+            - "**.json"
     pull_request:
         paths:
             - "**.php"
+            - "**.json"
 
 jobs:
     test:

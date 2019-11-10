@@ -24,7 +24,7 @@
         "wp-install": "wp-install --full",
         "wp-server": "cd .wp-install/web/ && wp server",
         "wpunit": " codecept run wpunit",
-        "functional": " codecept run functional",
+        "functional": "codecept run functional",
         "test": [
             "@wpunit",
             "@functional"
