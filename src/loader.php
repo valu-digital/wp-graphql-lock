@@ -91,9 +91,9 @@ class Loader {
 	 * @param  string $query_id Query ID
 	 * @return string Query
 	 */
-	public function load( $query_id ) {
+	public function load( $query_id, $operation_name ) {
 
-		$query = apply_filters( "{$this->namespace}_load_query", null, $query_id );
+		$query = apply_filters( "pre_{$this->namespace}_load_query", null, $query_id, $operation_name );
 
 		if ( $query ) {
 			return $query;
@@ -101,7 +101,9 @@ class Loader {
 
 		$post = get_page_by_path( $query_id, 'OBJECT', $this->post_type );
 
-		return isset( $post->post_content ) ? $post->post_content : null;
+		$saved = isset( $post->post_content ) ? $post->post_content : null;
+
+		return apply_filters( "{$this->namespace}_load_query", $saved, $query_id, $operation_name );
 	}
 
 	public function generate_query_id( $query ) {
@@ -159,11 +161,11 @@ class Loader {
 		if ( $has_query_id && $has_query ) {
 			$this->save( $query_id, $request_data['query'], $this->get_operation_name( $request_data ) );
 		}
-
+		$operation_name = empty($request_data['operationName']) ? null : $request_data['operationName'];
 		// Client sends queryId but *not* query == optimistic request to use
 		// persisted query.
 		if ( $has_query_id && ! $has_query ) {
-			$request_data['query'] = $this->load( $query_id );
+			$request_data['query'] = $this->load( $query_id, $operation_name );
 
 			// If the query is empty, that means it has not been persisted.
 			if ( empty( $request_data['query'] ) ) {
