@@ -21,9 +21,9 @@
         "lucatume/wp-browser": "^2.2"
     },
     "scripts": {
-        "wp-install": "wp-install --full",
+        "wp-install": "wp-install --full --env-file .env",
         "wp-server": "cd .wp-install/web/ && wp server",
-        "wpunit": " codecept run wpunit",
+        "wpunit": "codecept run wpunit",
         "functional": "codecept run functional",
         "test": [
             "@wpunit",
