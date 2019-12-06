@@ -13,6 +13,8 @@ eval $(grep -v '^#' .env)
 composer wp-install
 composer install
 
-wp-install --serve &
+if [ "$(wp-install --status)" = "full" ]; then
+    wp-install --serve &
+fi
 
 composer test
