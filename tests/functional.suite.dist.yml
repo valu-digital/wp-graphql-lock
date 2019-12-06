@@ -12,18 +12,18 @@ modules:
     config:
         REST:
             depends: WPBrowser
-            url: "http://%WP_TOOLS_SITE_HOST%"
+            url: "http://%WPTT_SITE_HOST%"
         WPBrowser:
-            url: "http://%WP_TOOLS_SITE_HOST%"
-            adminUsername: "%WP_TOOLS_SITE_ADMIN_USERNAME%"
-            adminPassword: "%WP_TOOLS_SITE_ADMIN_PASSWORD%"
+            url: "http://%WPTT_SITE_HOST%"
+            adminUsername: "%WPTT_SITE_ADMIN_USERNAME%"
+            adminPassword: "%WPTT_SITE_ADMIN_PASSWORD%"
             adminPath: "/wp-admin"
         WPDb:
-            dsn: "mysql:host=%WP_TOOLS_DB_HOST%;dbname=%WP_TOOLS_DB_NAME%"
-            user: %WP_TOOLS_DB_USER%
-            password: %WP_TOOLS_DB_PASSWORD%
-            dump: %WP_TOOLS_INSTALL_DIR%/dump.sql
+            dsn: "mysql:host=%WPTT_DB_HOST%;dbname=%WPTT_DB_NAME%"
+            user: %WPTT_DB_USER%
+            password: %WPTT_DB_PASSWORD%
+            dump: %WPTT_INSTALL_DIR%/dump.sql
             populate: true
             cleanup: true
-            url: "http://%WP_TOOLS_SITE_HOST%"
+            url: "http://%WPTT_SITE_HOST%"
             tablePrefix: wp_

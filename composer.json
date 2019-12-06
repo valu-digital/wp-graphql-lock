@@ -3,12 +3,6 @@
     "description": "Query locking for wp-graphql",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/valu-digital/wp-tools"
-        }
-    ],
     "authors": [
         {
             "name": "Esa-Matti Suuronen",
@@ -17,12 +11,11 @@
         }
     ],
     "require-dev": {
-        "valu/wp-tools": "*",
+        "valu/wp-testing-tools": "^0.3.0",
         "lucatume/wp-browser": "^2.2"
     },
     "scripts": {
-        "wp-install": "wp-install --full --env-file .env",
-        "wp-server": "cd .wp-install/web/ && wp server",
+        "wp-install": "wp-install --full",
         "wpunit": "codecept run wpunit",
         "functional": "codecept run functional",
         "test": [

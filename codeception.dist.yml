@@ -24,14 +24,14 @@ params:
 modules:
     config:
         WPLoader:
-            wpRootFolder: "%WP_TOOLS_INSTALL_DIR%/web"
-            dbName: "%WP_TOOLS_DB_NAME%"
-            dbHost: "%WP_TOOLS_DB_HOST%"
-            dbUser: "%WP_TOOLS_DB_USER%"
-            dbPassword: "%WP_TOOLS_DB_PASSWORD%"
+            wpRootFolder: "%WPTT_INSTALL_DIR%/web"
+            dbName: "%WPTT_DB_NAME%"
+            dbHost: "%WPTT_DB_HOST%"
+            dbUser: "%WPTT_DB_USER%"
+            dbPassword: "%WPTT_DB_PASSWORD%"
             tablePrefix: "_wp"
-            domain: "%WP_TOOLS_SITE_HOST%"
-            adminEmail: "%WP_TOOLS_SITE_ADMIN_EMAIL%"
+            domain: "%WPTT_SITE_HOST%"
+            adminEmail: "%WPTT_SITE_ADMIN_EMAIL%"
             title: "Test"
             plugins:
                 - "wp-graphql/wp-graphql.php"
