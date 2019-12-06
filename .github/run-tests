@@ -2,14 +2,10 @@
 
 set -eu
 
-composer install
-
-export PATH="$(pwd)/vendor/bin:$PATH"
-
 cp .env.github .env
 
-composer wp-install
 composer install
+composer wp-install
 
 if [ "$(wp-install --status)" = "full" ]; then
     wp-install --serve &
