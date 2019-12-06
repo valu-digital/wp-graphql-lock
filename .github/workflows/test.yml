@@ -18,5 +18,4 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - name: Run tests
-              run: |
-                  tools/test-github
+              run: .github/run-tests
