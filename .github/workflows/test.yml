@@ -1,16 +1,6 @@
 name: Run tests
 
-on:
-    push:
-        paths:
-            - "**.php"
-            - "**.json"
-            - tools/test-github
-    pull_request:
-        paths:
-            - "**.php"
-            - "**.json"
-            - tools/test-github
+on: [push, pull_request]
 
 jobs:
     test:
