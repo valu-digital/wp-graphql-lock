@@ -59,8 +59,8 @@ Otherwise you can clone it from Github to your plugins using the stable branch
 
 ### `graphql_lock_load_query`
 
--   Load the queries from a custom location
--   The query ID is passed as the second parameter
+- Load the queries from a custom location
+- The query ID is passed as the second parameter
 
 Example:
 
@@ -75,25 +75,25 @@ Note: You should prefer using hidden directories / files to avoid exposing the l
 
 ### `graphql_lock_post_type`
 
--   Default: `'graphql_query'`
--   The custom post type used to persist queries. If empty, queries will not be
-    persisted.
+- Default: `'graphql_query'`
+- The custom post type used to persist queries. If empty, queries will not be
+  persisted.
 
 ### `graphql_lock_show_in_graphql`
 
--   Default: `false`
--   Whether the custom post type will itself be exposed via GraphQL. Enabling
-    allows insight into which queries are persisted.
+- Default: `false`
+- Whether the custom post type will itself be exposed via GraphQL. Enabling
+  allows insight into which queries are persisted.
 
 ```graphql
 query PersistedQueryQuery {
-    persistedQueries {
-        nodes {
-            id
-            title
-            content(format: RAW)
-        }
+  persistedQueries {
+    nodes {
+      id
+      title
+      content(format: RAW)
     }
+  }
 }
 ```
 
@@ -131,3 +131,7 @@ There's a settings screen for managing the option
 This plugin is based on the [Quartz persisted Queries][original] plugin.
 
 [original]: https://github.com/Quartz/wp-graphql-persisted-queries
+
+## Contributing
+
+Read [CONTRIBUTING.md](/CONTRIBUTING.md)
