@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
     test:
         services:
-            container:
+            mariadb:
                 image: mariadb
                 ports:
                     - 3306
