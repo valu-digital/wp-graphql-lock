@@ -13,10 +13,10 @@ jobs:
                     MYSQL_ROOT_PASSWORD: root
         runs-on: ubuntu-latest
         steps:
-          - name: Verify MySQL connection from host
-            run: |
-              sudo apt-get install -y mysql-client
-              mysql --host 127.0.0.1 --port 3306 -uroot -proot -e "SHOW DATABASES"
+            - name: Verify MySQL connection from host
+              run: |
+                  sudo apt-get install -y mysql-client
+                  mysql --host 127.0.0.1 --port 3306 -uroot -proot -e "SHOW DATABASES"
 
             - uses: actions/checkout@v1
 
