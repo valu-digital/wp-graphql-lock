@@ -4,6 +4,12 @@ on: [push, pull_request]
 
 jobs:
     test:
+        services:
+            image: mariadb
+            ports:
+                - 3306
+            env:
+                MYSQL_ROOT_PASSWORD: root
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
