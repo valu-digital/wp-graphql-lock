@@ -231,7 +231,7 @@ class Loader {
 		}
 
 		// Check to see if the query has already been persisted. If so, we're done.
-		if ( ! empty( $this->load( $query_id ) ) ) {
+		if ( ! empty( $this->load( $query_id, $name ) ) ) {
 			return;
 		}
 
