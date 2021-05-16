@@ -133,50 +133,57 @@ class Loader {
 	 * @throws UserError           Caught and handled by WPGraphQL
 	 */
 	public function process_request_data( $request_data ) {
-		$has_query = ! empty( $request_data['query'] );
-		$has_query_id = ! empty( $request_data['queryId'] );
 
-		if ( Settings::is_generate_ids_enabled() && ! $has_query_id ) {
-			$request_data['queryId'] = $this->generate_query_id( $request_data['query'] );
-			$has_query_id = true;
+        $request_data_array = is_array($request_data) ? $request_data : [$request_data];
+
+        foreach ($request_data_array as $request_data_item) {
+
+            $has_query = ! empty( $request_data_item['query'] );
+            $has_query_id = ! empty( $request_data_item['queryId'] );
+
+            if ( Settings::is_generate_ids_enabled() && ! $has_query_id ) {
+                $request_data_item['queryId'] = $this->generate_query_id( $request_data_item['query'] );
+                $has_query_id = true;
+            }
+
+            if ( Settings::is_locked() ) {
+                if ( ! $has_query_id ) {
+                    throw new UserError( sprintf(
+                        'WP GraphQL Lock Queries is in lock mode: queryId is required for %s',
+                        $this->get_operation_name( $request_data_item )
+                    ) );
+                }
+
+                // No custom queries allowed in lock mode
+                unset( $request_data_item['query'] );
+                $has_query = false;
+            }
+
+            // Query IDs are case-insensitive.
+            $query_id = $has_query_id ? strtolower( $request_data_item['queryId'] ) : null;
+
+            // Client sends *both* queryId and query == request to persist query.
+            if ( $has_query_id && $has_query ) {
+                $this->save( $query_id, $request_data_item['query'], $this->get_operation_name( $request_data_item ) );
+            }
+            $operation_name = empty($request_data_item['operationName']) ? null : $request_data_item['operationName'];
+            // Client sends queryId but *not* query == optimistic request to use
+            // persisted query.
+            if ( $has_query_id && ! $has_query ) {
+                $request_data_item['query'] = $this->load( $query_id, $operation_name );
+
+                // If the query is empty, that means it has not been persisted.
+                if ( empty( $request_data_item['query'] ) ) {
+                    throw new UserError( json_encode($request_data_item).$this->error_message );
+                }
+            }
+
+            // We've got this. Call off any other persistence implementations.
+            unset( $request_data_item['queryId'] );
+
 		}
 
-		if ( Settings::is_locked() ) {
-			if ( ! $has_query_id ) {
-				throw new UserError( sprintf(
-					'WP GraphQL Lock Queries is in lock mode: queryId is required for %s',
-					$this->get_operation_name( $request_data )
-				) );
-			}
-
-			// No custom queries allowed in lock mode
-			unset( $request_data['query'] );
-			$has_query = false;
-		}
-
-		// Query IDs are case-insensitive.
-		$query_id = $has_query_id ? strtolower( $request_data['queryId'] ) : null;
-
-		// Client sends *both* queryId and query == request to persist query.
-		if ( $has_query_id && $has_query ) {
-			$this->save( $query_id, $request_data['query'], $this->get_operation_name( $request_data ) );
-		}
-		$operation_name = empty($request_data['operationName']) ? null : $request_data['operationName'];
-		// Client sends queryId but *not* query == optimistic request to use
-		// persisted query.
-		if ( $has_query_id && ! $has_query ) {
-			$request_data['query'] = $this->load( $query_id, $operation_name );
-
-			// If the query is empty, that means it has not been persisted.
-			if ( empty( $request_data['query'] ) ) {
-				throw new UserError( $this->error_message );
-			}
-		}
-
-		// We've got this. Call off any other persistence implementations.
-		unset( $request_data['queryId'] );
-
-		return $request_data;
+		return $request_data_array;
 	}
 
 	/**
