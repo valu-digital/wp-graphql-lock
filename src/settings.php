@@ -17,6 +17,8 @@ class Settings {
 
 	private $options = null;
 
+	private $checkboxes = [];
+
 	public function __construct() {
 		$this->checkboxes = [
 			[
